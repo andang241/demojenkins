@@ -9,7 +9,7 @@ pipeline {
         stage('Clone Repository') {
             steps {
                 // Clones your GitHub repository
-                git 'https://github.com/your-github-username/your-repo-name.git'
+                git 'https://github.com/andang241/demojenkins.git'
             }
         }
         stage('Build DVWA Docker Image') {
