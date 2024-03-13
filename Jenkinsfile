@@ -1,30 +1,62 @@
 pipeline {
     environment {
         DOCKERHUB_CREDENTIALS = credentials('DOCKERHUB')
+        DVWA_IMAGE = 'andang241/dvwa'
+        MYSQL_IMAGE = 'andang241/mysql'
     }
     agent any
     stages {
-        stage('Build') {
+        stage('Clone Repository') {
             steps {
                 // Clones your GitHub repository
-                sh 'docker build -t andang241/dvwa:latest dvwa/Dockerfile'
+                git 'https://github.com/your-github-username/your-repo-name.git'
             }
         }
-        stage('Login') {
+        stage('Build DVWA Docker Image') {
             steps {
-               sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                // Changes directory to 'dvwa' and builds the Docker image
+                dir('dvwa') {
+                    script {
+                        docker.build(DVWA_IMAGE)
+                    }
+                }
             }
         }
         stage('Push DVWA Docker Image') {
             steps {
-                sh 'docker push andang241/test:latest'
+                // Log in and push the DVWA Docker image to Docker Hub
+                script {
+                    docker.withRegistry('', DOCKERHUB_CREDENTIALS) {
+                        docker.image(DVWA_IMAGE).push()
+                    }
+                }
+            }
+        }
+        stage('Build MYSQL Docker Image') {
+            steps {
+                // Changes directory to 'mysql' and builds the Docker image
+                dir('mysql') {
+                    script {
+                        docker.build(MYSQL_IMAGE)
+                    }
+                }
+            }
+        }
+        stage('Push MYSQL Docker Image') {
+            steps {
+                // Log in and push the MYSQL Docker image to Docker Hub
+                script {
+                    docker.withRegistry('', DOCKERHUB_CREDENTIALS) {
+                        docker.image(MYSQL_IMAGE).push()
+                    }
+                }
             }
         }
     }
     post {
         always {
             // Clean up Docker images to avoid filling up Jenkins server
-            sh "docker logout"
+            sh "docker rmi -f \$(docker images -q)"
         }
     }
 }
