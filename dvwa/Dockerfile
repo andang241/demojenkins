@@ -1,10 +1,9 @@
 FROM php:7.4-apache
 
-RUN rm -rf /var/lib/apt/lists/* && apt-get update --no-cache && apt-get install -y \
-    git \
-    libpng-dev \
-    && docker-php-ext-install gd pdo pdo_mysql mysqli \
-    && a2enmod rewrite
+RUN apt-get update && apt-get install -y git
+RUN apt-get install -y libpng-dev
+RUN docker-php-ext-install gd pdo pdo_mysql mysqli
+RUN a2enmod rewrite
 
 
 RUN git clone https://github.com/digininja/DVWA.git /var/www/html/
