@@ -7,7 +7,7 @@ pipeline {
         stage('Build') {
             steps {
                 // Clones your GitHub repository
-                sh 'docker build -t andang241/test:latest -f demojenkins/dvwa/Dockerfile'
+                sh 'docker build -t andang241/dvwa:latest -f ./dvwa/Dockerfile'
             }
         }
         stage('Login') {
