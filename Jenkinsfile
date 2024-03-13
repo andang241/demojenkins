@@ -7,7 +7,7 @@ pipeline {
         stage('Build') {
             steps {
                 // Clones your GitHub repository
-                sh 'docker build -t andang241/test:latest'
+                sh 'docker build -t andang241/test:latest .'
             }
         }
         stage('Login') {
