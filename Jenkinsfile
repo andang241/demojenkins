@@ -67,14 +67,14 @@ pipeline {
             }
         }
 
-        // stage('Build container using docker-compose') {
-        //     steps {
-        //         script {
-        //             // Pull images từ Docker Hub
-        //             sh 'ssh -o StrictHostKeyChecking=no andang241@10.1.37.34 "docker-compose up -d"'
-        //         }
-        //     }
-        // }
+        stage('Build container using docker-compose') {
+            steps {
+                script {
+                    // Pull images từ Docker Hub
+                    sh 'ssh -o StrictHostKeyChecking=no andang241@10.1.37.34 "docker-compose up -d"'
+                }
+            }
+        }
 
     }
     post {
