@@ -52,7 +52,7 @@ pipeline {
         stage('clone repo to  sshagent') {
             steps {
                 sshagent(['ssh_agent']) {
-                    sh 'ssh -o StrictHostKeyChecking=no andang241@10.1.37.34 "git clone https://github.com/andang241/demojenkins.git"'
+                    sh 'ssh -o StrictHostKeyChecking=no misa@10.1.36.38 "git clone https://github.com/andang241/demojenkins.git"'
                 }
             }
         }
@@ -61,8 +61,8 @@ pipeline {
             steps {
                 script {
                     // Pull images từ Docker Hub
-                    sh 'ssh -o StrictHostKeyChecking=no andang241@10.1.37.34 "docker pull andang241/dvwa"'
-                    sh 'ssh -o StrictHostKeyChecking=no andang241@10.1.37.34 "docker pull andang241/mysql"'
+                    sh 'ssh -o StrictHostKeyChecking=no misa@10.1.36.38 "docker pull andang241/dvwa"'
+                    sh 'ssh -o StrictHostKeyChecking=no misa@10.1.36.38 "docker pull andang241/mysql"'
                 }
             }
         }
