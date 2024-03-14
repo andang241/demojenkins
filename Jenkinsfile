@@ -41,7 +41,7 @@ pipeline {
                 // Changes directory to 'mysql' and builds the Docker image
                 dir('mysql') {
                     script {
-                        docker.build(MYSQL_IMAGE)
+                        sh 'docker push $DVWA_IMAGE'
                     }
                 }
             }
@@ -49,7 +49,7 @@ pipeline {
         stage('Push MYSQL Docker Image') {
             steps {
                 // push the MYSQL Docker image to Docker Hub
-                        docker.image(MYSQL_IMAGE).push()
+                        sh 'docker push $MYSQL_IMAGE'
             }
         }
     }
