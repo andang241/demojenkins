@@ -33,7 +33,7 @@ pipeline {
         stage('Push DVWA Docker Image') {
             steps {
                 // Log in and push the DVWA Docker image to Docker Hub
-                        docker.image(DVWA_IMAGE).push()
+                        sh 'docker push $DVWA_IMAGE'
             }
         }
         stage('Build MYSQL Docker Image') {
@@ -41,7 +41,7 @@ pipeline {
                 // Changes directory to 'mysql' and builds the Docker image
                 dir('mysql') {
                     script {
-                        sh 'docker push $DVWA_IMAGE'
+                        docker.build(MYSQL_IMAGE)
                     }
                 }
             }
