@@ -33,6 +33,7 @@ pipeline {
                     }
                 }
             }
+        }
         stage('Build MYSQL Docker Image') {
             steps {
                 // Changes directory to 'mysql' and builds the Docker image
