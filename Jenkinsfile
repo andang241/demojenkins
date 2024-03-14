@@ -54,7 +54,7 @@ pipeline {
     post {
         always {
             // Clean up Docker images to avoid filling up Jenkins server
-            sh "docker rmi -f \$(docker images -q)"
+            sh "docker ps"
         }
     }
 }
