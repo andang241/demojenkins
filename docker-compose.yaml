@@ -1,8 +1,19 @@
-# Sử dụng image MySQL
-FROM mysql:5.7
-
-ENV MYSQL_DATABASE=dvwa \
-    MYSQL_ROOT_PASSWORD=anbom123
-
-# Cấu hình volume để lưu trữ dữ liệu
-VOLUME /var/lib/mysql
+version: '3.7'
+services:
+  dvwa:
+    image: andang241/dvwa
+    ports:
+      - "241:80"
+    depends_on:
+      - mysql
+    environment:
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=anbom123
+      - MYSQL_HOST=mysql
+  mysql:
+    image: andang241/mysql
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=anbom123
+      - MYSQL_DATABASE=dvwa
