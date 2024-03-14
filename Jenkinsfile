@@ -21,21 +21,18 @@ pipeline {
                     }
                 }
             }
-        }
-
-        stage('Login to Docker Hub') {         
-            steps{                            
-	            sh 'echo $DOCKERHUB_CREDENTIALS_PSW | sudo docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'                 
-	            echo 'Login Completed'                
-              }               
-        }  
+        } 
         
-        stage('Push DVWA Docker Image') {
+        stage('Login to Docker Hub') {
             steps {
-                // Log in and push the DVWA Docker image to Docker Hub
-                        sh 'docker push $DVWA_IMAGE'
+                script {
+                    // Đăng nhập vào Docker Hub
+                    docker.withRegistry('https://index.docker.io/v1/', 'DOCKERHUB_CREDENTIALS') {
+                        // Các bước sử dụng Docker có thể được thêm vào đây
+                        echo 'Đã đăng nhập thành công vào Docker Hub'
+                    }
+                }
             }
-        }
         stage('Build MYSQL Docker Image') {
             steps {
                 // Changes directory to 'mysql' and builds the Docker image
