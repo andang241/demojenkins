@@ -22,14 +22,18 @@ pipeline {
                 }
             }
         }
+
+        stage('Login') {
+            steps {
+                // Login docker hub
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+            }
+        }
+        
         stage('Push DVWA Docker Image') {
             steps {
                 // Log in and push the DVWA Docker image to Docker Hub
-                script {
-                    docker.withRegistry('', DOCKERHUB_CREDENTIALS) {
                         docker.image(DVWA_IMAGE).push()
-                    }
-                }
             }
         }
         stage('Build MYSQL Docker Image') {
@@ -44,12 +48,8 @@ pipeline {
         }
         stage('Push MYSQL Docker Image') {
             steps {
-                // Log in and push the MYSQL Docker image to Docker Hub
-                script {
-                    docker.withRegistry('', DOCKERHUB_CREDENTIALS) {
+                // push the MYSQL Docker image to Docker Hub
                         docker.image(MYSQL_IMAGE).push()
-                    }
-                }
             }
         }
     }
