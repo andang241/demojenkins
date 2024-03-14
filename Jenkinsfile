@@ -27,7 +27,7 @@ pipeline {
             steps {
                 script {
                     // Đăng nhập vào Docker Hub
-                    docker.withRegistry('https://index.docker.io/v1/', 'DOCKERHUB_CREDENTIALS') {
+                    docker.withRegistry('https://index.docker.io/v1/', 'DOCKERHUB') {
                         // Các bước sử dụng Docker có thể được thêm vào đây
                         echo 'Đã đăng nhập thành công vào Docker Hub'
                     }
