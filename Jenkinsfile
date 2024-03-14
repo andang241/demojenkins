@@ -71,7 +71,7 @@ pipeline {
             steps {
                 script {
                     // Pull images từ Docker Hub
-                    sh 'ssh -o StrictHostKeyChecking=no andang241@10.1.37.34 "docker-compose up -d"'
+                    sh 'ssh -o StrictHostKeyChecking=no misa@10.1.36.38 "docker-compose up -d"'
                 }
             }
         }
