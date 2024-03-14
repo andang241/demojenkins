@@ -12,17 +12,7 @@ pipeline {
                 git 'https://github.com/andang241/demojenkins.git'
             }
         }
-        stage('Build DVWA Docker Image') {
-            steps {
-                // Changes directory to 'dvwa' and builds the Docker image
-                dir('dvwa') {
-                    script {
-                        docker.build(DVWA_IMAGE)
-                    }
-                }
-            }
-        } 
-        
+
         stage('Login to Docker Hub') {
             steps {
                 script {
@@ -46,17 +36,23 @@ pipeline {
             }
         }
     }
-        stage('Push MYSQL Docker Image') {
-            steps {
-                // push the MYSQL Docker image to Docker Hub
-                        sh 'docker push $MYSQL_IMAGE'
+        stage('Build and Push MYSQL Docker Image') {
+        steps {
+            script {
+                dir('mysql') {
+                    def mysql = docker.build(MYSQL_IMAGE)
+                    docker.withRegistry('https://index.docker.io/v1/', 'DOCKERHUB') {
+                    mysql.push()
+                    }    
+                }
             }
         }
+    }
     }
     post {
         always {
             // Clean up Docker images to avoid filling up Jenkins server
-            sh "docker ps"
+            sh 'docker logout'
         }
     }
 }
